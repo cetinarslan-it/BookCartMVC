@@ -1,4 +1,5 @@
 ﻿using Library.Data;
+using Library.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 
@@ -13,8 +14,13 @@ namespace Library.Controllers
         }
        public IActionResult Index()
         {
-            IEnumerable CategoryList = _db.Categories;
+            IEnumerable<Category> CategoryList = _db.Categories;
             return View(CategoryList);
+        }
+
+        public IActionResult Create() 
+        {
+            return View();
         }
     }
 }
