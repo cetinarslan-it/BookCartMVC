@@ -17,10 +17,18 @@ namespace Library.Controllers
             IEnumerable<Category> CategoryList = _db.Categories;
             return View(CategoryList);
         }
-
+        [HttpGet]
         public IActionResult Create() 
         {
             return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Category obj)
+        {
+            _db.Categories.Add(obj);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }
