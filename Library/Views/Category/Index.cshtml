@@ -21,6 +21,8 @@
             <th>Name</th>
             <th>Order</th>
             <th>Time</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -31,6 +33,16 @@
                  <td width="30%">@item.Name</td>
                  <td width="20%">@item.DisplayOrder</td>
                  <td width="20%">@item.CreatedDateTime</td>
+                 <td>
+                    <div class="w-100 btn-group" role="group">
+                        <a asp-controller="Category" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i>&nbsp;&nbsp;Edit</a>
+                     </div>
+                 </td>
+                <td>
+                    <div class="w-100 btn-group" role="group">
+                        <a asp-controller="Category" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger mx-2"> <i class="bi bi-trash"></i>&nbsp;&nbsp;Delete</a>
+                    </div>
+                </td>
              </tr>
         }
     </tbody>

@@ -17,11 +17,13 @@ namespace Library.Controllers
             IEnumerable<Category> CategoryList = _db.Categories;
             return View(CategoryList);
         }
+
         [HttpGet]
         public IActionResult Create() 
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Category obj)
@@ -41,6 +43,69 @@ namespace Library.Controllers
             return View(obj);
            
         }
-      
+
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            //var categoryFirst = _db.Categories.FirstOrDefault(c => c.Id == id);
+            //var categorySingle = _db.Categories.SingleOrDefault(c => c.Id == id);
+            var category = _db.Categories.Find(id);
+            return View(category);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Category obj)
+        {
+            if (obj.Name == obj.DisplayOrder.ToString())
+            {
+                ModelState.AddModelError("CustomError", "The display order cannot have the same value with the name!");
+            }
+
+            if (ModelState.IsValid)
+            {
+                _db.Categories.Update(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(obj);
+
+        }
+        [HttpGet]
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            //var categoryFirst = _db.Categories.FirstOrDefault(c => c.Id == id);
+            //var categorySingle = _db.Categories.SingleOrDefault(c => c.Id == id);
+            var category = _db.Categories.Find(id);
+            return View(category);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeletePost(int? id)
+        {       
+            var obj = _db.Categories.Find(id);
+
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            _db.Categories.Remove(obj);
+            _db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+
     }
+
 }
+
