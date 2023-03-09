@@ -37,6 +37,9 @@ namespace Library.Controllers
             {
                 _db.Categories.Add(obj);
                 _db.SaveChanges();
+
+                TempData["success"] = "A new category added succesfully";
+
                 return RedirectToAction("Index");
             }
 
@@ -69,6 +72,9 @@ namespace Library.Controllers
             {
                 _db.Categories.Update(obj);
                 _db.SaveChanges();
+
+                TempData["success"] = "Category updated succesfully";
+
                 return RedirectToAction("Index");
             }
 
@@ -87,7 +93,7 @@ namespace Library.Controllers
             var category = _db.Categories.Find(id);
             return View(category);
         }
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeletePost(int? id)
         {       
@@ -100,6 +106,8 @@ namespace Library.Controllers
 
             _db.Categories.Remove(obj);
             _db.SaveChanges();
+
+            TempData["success"] = "Category deleted succesfully";
 
             return RedirectToAction("Index");
         }
