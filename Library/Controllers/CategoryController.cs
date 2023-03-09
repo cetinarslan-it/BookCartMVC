@@ -26,9 +26,27 @@ namespace Library.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Category obj)
         {
-            _db.Categories.Add(obj);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
+            if (obj.Name == obj.DisplayOrder.ToString())
+            {
+                ModelState.AddModelError("CustomError","The display order cannot have the same value with the name!");
+            }
+            if (obj.Name == "")
+            {
+                ModelState.AddModelError("name", "The name cannot be empty.");
+            }
+            if (obj.DisplayOrder.ToString() == "")
+            {
+                ModelState.AddModelError("displayorder", "The display order cannot be empty.");
+            }
+            if (ModelState.IsValid)
+            {
+                _db.Categories.Add(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(obj);
+           
         }
     }
 }
