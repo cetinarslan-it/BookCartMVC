@@ -1,4 +1,5 @@
 ﻿using Library.DataAccess;
+using Library.DataAccess.Repository.IRepository;
 using Library.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
@@ -7,14 +8,14 @@ namespace Library.Controllers
 {
     public class CategoryController :Controller
     {
-        private readonly LibraryDBContext _db;
-        public CategoryController (LibraryDBContext db)
+        private readonly ICategoryRepository _db;
+        public CategoryController (ICategoryRepository db)
         {
             _db = db;
         }
        public IActionResult Index()
         {
-            IEnumerable<Category> CategoryList = _db.Categories;
+            IEnumerable<Category> CategoryList = _db.GetAll();
             return View(CategoryList);
         }
 
@@ -35,8 +36,8 @@ namespace Library.Controllers
          
             if (ModelState.IsValid)
             {
-                _db.Categories.Add(obj);
-                _db.SaveChanges();
+                _db.Add(obj);
+                _db.Save();
 
                 TempData["success"] = "A new category added succesfully";
 
@@ -54,9 +55,13 @@ namespace Library.Controllers
             {
                 return NotFound();
             }
-            //var categoryFirst = _db.Categories.FirstOrDefault(c => c.Id == id);
+            var category = _db.GetFirstOrDefault(c => c.Id == id);
             //var categorySingle = _db.Categories.SingleOrDefault(c => c.Id == id);
-            var category = _db.Categories.Find(id);
+            //var categoryFind = _db.Categories.Find(id);
+            if(category == null)
+            {
+                return NotFound();
+            }
             return View(category);
         }
         [HttpPost]
@@ -70,8 +75,8 @@ namespace Library.Controllers
 
             if (ModelState.IsValid)
             {
-                _db.Categories.Update(obj);
-                _db.SaveChanges();
+                _db.Update(obj);
+                _db.Save();
 
                 TempData["success"] = "Category updated succesfully";
 
@@ -88,32 +93,34 @@ namespace Library.Controllers
             {
                 return NotFound();
             }
-            //var categoryFirst = _db.Categories.FirstOrDefault(c => c.Id == id);
+             var category = _db.GetFirstOrDefault(c => c.Id == id);
             //var categorySingle = _db.Categories.SingleOrDefault(c => c.Id == id);
-            var category = _db.Categories.Find(id);
+            //var category = _db.Categories.Find(id);
+            if (category == null)
+            {
+                return NotFound();
+            }
             return View(category);
         }
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("DeletePost")]
         [ValidateAntiForgeryToken]
         public IActionResult DeletePost(int? id)
-        {       
-            var obj = _db.Categories.Find(id);
+        {
+            var obj = _db.GetFirstOrDefault(c => c.Id == id);
 
             if (obj == null)
             {
                 return NotFound();
+               
             }
-
-            _db.Categories.Remove(obj);
-            _db.SaveChanges();
+         
+            _db.Remove(obj);
+            _db.Save();
 
             TempData["success"] = "Category deleted succesfully";
 
             return RedirectToAction("Index");
         }
-
-
     }
-
 }
 
