@@ -4,23 +4,24 @@ using Library.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 
-namespace Library.Controllers
+namespace Library.Areas.Admin.Controllers
 {
-    public class CategoryController :Controller
+    [Area("Admin")]
+    public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        public CategoryController (IUnitOfWork unitOfWork)
+        public CategoryController(IUnitOfWork unitOfWork)
         {
-          _unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
         }
-       public IActionResult Index()
+        public IActionResult Index()
         {
             IEnumerable<Category> CategoryList = _unitOfWork.Category.GetAll();
             return View(CategoryList);
         }
 
         [HttpGet]
-        public IActionResult Create() 
+        public IActionResult Create()
         {
             return View();
         }
@@ -31,9 +32,9 @@ namespace Library.Controllers
         {
             if (obj.Name == obj.DisplayOrder.ToString())
             {
-                ModelState.AddModelError("CustomError","The display order cannot have the same value with the name!");
+                ModelState.AddModelError("CustomError", "The display order cannot have the same value with the name!");
             }
-         
+
             if (ModelState.IsValid)
             {
                 _unitOfWork.Category.Add(obj);
@@ -45,7 +46,7 @@ namespace Library.Controllers
             }
 
             return View(obj);
-           
+
         }
 
         [HttpGet]
@@ -58,7 +59,7 @@ namespace Library.Controllers
             var category = _unitOfWork.Category.GetFirstOrDefault(c => c.Id == id);
             //var categorySingle = _db.Categories.SingleOrDefault(c => c.Id == id);
             //var categoryFind = _db.Categories.Find(id);
-            if(category == null)
+            if (category == null)
             {
                 return NotFound();
             }
@@ -93,7 +94,7 @@ namespace Library.Controllers
             {
                 return NotFound();
             }
-             var category = _unitOfWork.Category.GetFirstOrDefault(c => c.Id == id);
+            var category = _unitOfWork.Category.GetFirstOrDefault(c => c.Id == id);
             //var categorySingle = _db.Categories.SingleOrDefault(c => c.Id == id);
             //var category = _db.Categories.Find(id);
             if (category == null)
@@ -111,9 +112,9 @@ namespace Library.Controllers
             if (obj == null)
             {
                 return NotFound();
-               
+
             }
-         
+
             _unitOfWork.Category.Remove(obj);
             _unitOfWork.Save();
 
