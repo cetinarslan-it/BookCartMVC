@@ -5,11 +5,11 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library", "Library\Library.csproj", "{B3B7E12A-7468-404F-B842-DC4DD69144A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.DataAccess", "Library.DataAccess\Library.DataAccess.csproj", "{41838E59-E06B-41BA-B7FC-4763FAB237DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.DataAccess", "Library.DataAccess\Library.DataAccess.csproj", "{41838E59-E06B-41BA-B7FC-4763FAB237DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Models", "Library.Models\Library.Models.csproj", "{23933397-4F47-4523-B65E-B4A1C0B3A355}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Models", "Library.Models\Library.Models.csproj", "{23933397-4F47-4523-B65E-B4A1C0B3A355}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Utility", "Library.Utility\Library.Utility.csproj", "{E18C0E2D-0DE4-484D-A277-569D67104B88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Utility", "Library.Utility\Library.Utility.csproj", "{E18C0E2D-0DE4-484D-A277-569D67104B88}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

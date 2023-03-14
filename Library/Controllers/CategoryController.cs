@@ -8,14 +8,14 @@ namespace Library.Controllers
 {
     public class CategoryController :Controller
     {
-        private readonly ICategoryRepository _db;
-        public CategoryController (ICategoryRepository db)
+        private readonly IUnitOfWork _unitOfWork;
+        public CategoryController (IUnitOfWork unitOfWork)
         {
-            _db = db;
+          _unitOfWork = unitOfWork;
         }
        public IActionResult Index()
         {
-            IEnumerable<Category> CategoryList = _db.GetAll();
+            IEnumerable<Category> CategoryList = _unitOfWork.Category.GetAll();
             return View(CategoryList);
         }
 
@@ -36,8 +36,8 @@ namespace Library.Controllers
          
             if (ModelState.IsValid)
             {
-                _db.Add(obj);
-                _db.Save();
+                _unitOfWork.Category.Add(obj);
+                _unitOfWork.Save();
 
                 TempData["success"] = "A new category added succesfully";
 
@@ -55,7 +55,7 @@ namespace Library.Controllers
             {
                 return NotFound();
             }
-            var category = _db.GetFirstOrDefault(c => c.Id == id);
+            var category = _unitOfWork.Category.GetFirstOrDefault(c => c.Id == id);
             //var categorySingle = _db.Categories.SingleOrDefault(c => c.Id == id);
             //var categoryFind = _db.Categories.Find(id);
             if(category == null)
@@ -75,8 +75,8 @@ namespace Library.Controllers
 
             if (ModelState.IsValid)
             {
-                _db.Update(obj);
-                _db.Save();
+                _unitOfWork.Category.Update(obj);
+                _unitOfWork.Save();
 
                 TempData["success"] = "Category updated succesfully";
 
@@ -93,7 +93,7 @@ namespace Library.Controllers
             {
                 return NotFound();
             }
-             var category = _db.GetFirstOrDefault(c => c.Id == id);
+             var category = _unitOfWork.Category.GetFirstOrDefault(c => c.Id == id);
             //var categorySingle = _db.Categories.SingleOrDefault(c => c.Id == id);
             //var category = _db.Categories.Find(id);
             if (category == null)
@@ -106,7 +106,7 @@ namespace Library.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeletePost(int? id)
         {
-            var obj = _db.GetFirstOrDefault(c => c.Id == id);
+            var obj = _unitOfWork.Category.GetFirstOrDefault(c => c.Id == id);
 
             if (obj == null)
             {
@@ -114,8 +114,8 @@ namespace Library.Controllers
                
             }
          
-            _db.Remove(obj);
-            _db.Save();
+            _unitOfWork.Category.Remove(obj);
+            _unitOfWork.Save();
 
             TempData["success"] = "Category deleted succesfully";
 
