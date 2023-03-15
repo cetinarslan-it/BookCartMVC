@@ -11,6 +11,10 @@ namespace Library.DataAccess.Repository
     {
         private LibraryDBContext _db;
 
+        public ICategoryRepository Category { get; private set; }
+        public ICoverTypeRepository CoverType { get; private set; }
+        public IProductRepository Product { get; private set; }
+
         public UnitOfWork(LibraryDBContext db)
         {
             _db = db;
@@ -19,10 +23,6 @@ namespace Library.DataAccess.Repository
             CoverType = new CoverTypeRepository(_db);
             Product = new ProductRepository(_db);          
         }
-
-        public ICategoryRepository Category { get; private set; }
-        public ICoverTypeRepository CoverType { get; private set; }
-        public IProductRepository Product { get; private set; }
 
         public void Save()
         {
