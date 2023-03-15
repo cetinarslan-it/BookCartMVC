@@ -8,45 +8,47 @@
 }*@
 
 <partial name="_Notification"> </partial>
-
-<div class="container p-3">
-    <div  class="row pt-4">
-        <div class="col-6">
-            <h2 class="text-primary">Category List</h2>
-        </div>
-        <div class="col-6 text-end">
-            <a asp-controller="Category" asp-action="Create" class="btn btn-primary rounded-3" style="width:200px"><i class="bi bi-journal-plus"></i>&nbsp;Add New Category</a>
+<div class="container p-3 border rounded-2" >
+    <div>
+        <div class="row pt-4">
+            <div class="col-6">
+                <h2 class="text-primary">Category List</h2>
+            </div>
+            <div class="col-6 text-end">
+                <a asp-controller="Category" asp-action="Create" class="btn btn-primary rounded-3" style="width:200px"><i class="bi bi-journal-plus"></i>&nbsp;Add New Category</a>
+            </div>
         </div>
     </div>
-</div>
-<br /><br />
-<table class="table table-bordered table-striped" style="width:100%">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Order</th>
-            <th>Time</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var item in Model)
-        {
+    <br /><br />
+    <table class="table table-bordered table-striped" style="width:100%">
+        <thead>
             <tr>
-                 <td width="10%">@item.Id</td>
-                 <td width="30%">@item.Name</td>
-                 <td width="20%">@item.DisplayOrder</td>
-                 <td width="20%">@item.CreatedDateTime</td>
-                 <td>
-                    <div class="w-100 btn-group" role="group">
-                        <a asp-controller="Category" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary mx-2 rounded-2" style="width:100px"> <i class="bi bi-pencil-square"></i>&nbsp;&nbsp;Update</a>
-                        <a asp-controller="Category" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger mx-2 rounded-2" style="width:100px"> <i class="bi bi-trash"></i>&nbsp;&nbsp;Delete</a>
-                    </div>
-                </td>
-             </tr>
-        }
-    </tbody>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Order</th>
+                <th>Time</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td width="10%">@item.Id</td>
+                    <td width="30%">@item.Name</td>
+                    <td width="20%">@item.DisplayOrder</td>
+                    <td width="20%">@item.CreatedDateTime</td>
+                    <td>
+                        <div class="w-100 btn-group" role="group">
+                            <a asp-controller="Category" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary mx-2 rounded-2" style="width:100px"> <i class="bi bi-pencil-square"></i>&nbsp;&nbsp;Update</a>
+                            <a asp-controller="Category" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger mx-2 rounded-2" style="width:100px"> <i class="bi bi-trash"></i>&nbsp;&nbsp;Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
 
-</table>
+    </table>
+</div>
+
 
