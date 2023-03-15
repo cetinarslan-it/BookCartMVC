@@ -12,14 +12,16 @@ namespace Library.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        public ProductController(IUnitOfWork unitOfWork)
+        private readonly IWebHostEnvironment _hostEnvironment;
+        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment hostEnvironment)
         {
             _unitOfWork = unitOfWork;
+            _hostEnvironment = hostEnvironment;
         }
         public IActionResult Index()
         {
-            IEnumerable<Product> CoverTypeList = _unitOfWork.Product.GetAll();
-            return View(CoverTypeList);
+           
+            return View();
         }
 
         [HttpGet]
@@ -100,17 +102,34 @@ namespace Library.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(Product obj)
+        public IActionResult Upsert(ProductVM obj, IFormFile? file)
         {
-
             if (ModelState.IsValid)
             {
-                _unitOfWork.Product.Update(obj);
-                _unitOfWork.Save();
+                string wwwRoothPath = _hostEnvironment.WebRootPath;
 
-                TempData["success"] = "Cover type updated succesfully";
+                 if(file != null)
+                 {
+                     string fileName = Guid.NewGuid().ToString();
+                     var uploads = Path.Combine(wwwRoothPath, @"images\products");
+                     var extension = Path.GetExtension(file.FileName);
 
-                return RedirectToAction("Index");
+                     using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                     {
+                        file.CopyTo(fileStreams);
+                     }
+
+                     obj.Product.ImageUrl = @"\images\products\" + fileName + extension;
+
+                 }
+
+           
+                 _unitOfWork.Product.Add(obj.Product);
+                 _unitOfWork.Save();
+ 
+                 TempData["success"] = "New product created succesfully";
+
+                 return RedirectToAction("Index");
             }
 
             return View(obj);
@@ -150,6 +169,21 @@ namespace Library.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
+
+
+        #region API CALLS
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+          var productList = _unitOfWork.Product.GetAll();
+
+            return Json(new { data = productList });    
+        }
+
+        #endregion
+
     }
+
 }
 

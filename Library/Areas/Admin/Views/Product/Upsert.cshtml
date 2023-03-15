@@ -9,7 +9,7 @@
         @*<div asp-validation-summary="All"></div>*@
         <div class="mb-3">
             <label asp-for="Product.Title"></label>
-            <input asp-for="Product.Title" class="form-control" />
+            <input asp-for="Product.Title" class="form-control" id="typeTitle"/>
             <span asp-validation-for="Product.Title" class="text-danger"></span>
         </div>
         <div class="mb-3">
@@ -56,8 +56,7 @@
 
         <div class="mb-3">
             <label asp-for="Product.ImageUrl"></label>
-            <input asp-for="Product.ImageUrl" type="file" class="form-control " />
-            <span asp-validation-for="Product.ImageUrl" class="text-danger"></span>
+            <input type="file" id="uploadImage" name="file" class="form-control " />
         </div>
         <div class="row">
             <div class="mb-3 col-6">
@@ -78,11 +77,11 @@
         <div class="col-12">
             @if(Model.Product.Id != 0)
             {
-                <button class="btn btn-secondary rounded-3" type="submit" style="width:170px; margin-right:10px">Update</button>
+                <button class="btn btn-warning rounded-3" type="submit" style="width:170px; margin-right:10px">Update</button>
             }
             else
             {
-                <button class="btn btn-secondary rounded-3" type="submit" style="width:170px; margin-right:10px">Create</button>
+                <button class="btn btn-danger rounded-3" type="submit" onclick="return ValidateInput()" style="width:170px; margin-right:10px">Create</button>
             }           
             <a asp-controller="Product" asp-action="Index" class="btn btn-info rounded-3" style="width:170px;margin-left:10px">Back to list</a>
         </div>      
@@ -91,8 +90,22 @@
 
 
 @section Scripts{
-    @{
-                    <partial name="_ValidationScriptsPartial"></partial>
+   @{
+        <partial name="_ValidationScriptsPartial"></partial>
     }
+
+    <script>
+        function ValidateInput(){
+            if(document.getElementById("uploadImage").value==""){        
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please upload an image!...',
+                });
+                return false;
+            }
+            return true;
+        }       
+    </script>
 }
 
