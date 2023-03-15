@@ -1,6 +1,7 @@
 ﻿using Library.DataAccess;
 using Library.DataAccess.Repository.IRepository;
 using Library.Models;
+using Library.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections;
@@ -48,36 +49,54 @@ namespace Library.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Upsert(int? id)
         {
-            Product product = new();
+            ProductVM productVM = new()
+            {
+                Product = new(),
+                CategoryList = _unitOfWork.Category.GetAll().Select(u =>
+                    new SelectListItem
+                    {
+                        Text = u.Name,
+                        Value = u.Id.ToString()
+                    }
+                ),
+                CoverTypeList = _unitOfWork.CoverType.GetAll().Select(u =>
+                    new SelectListItem
+                    {
+                        Text = u.Name,
+                        Value = u.Id.ToString()
+                    }
+                )
+            };
 
-            IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category.GetAll().Select(
-                u => new SelectListItem
-                {
-                    Text = u.Name,
-                    Value = u.Id.ToString()
-                });
+            //Product product = new Product();
+            //IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category.GetAll().Select(
+            //    u => new SelectListItem
+            //    {
+            //        Text = u.Name,
+            //        Value = u.Id.ToString()
+            //    });
 
-            IEnumerable<SelectListItem> CoverTypeList = _unitOfWork.CoverType.GetAll().Select(
-                u => new SelectListItem
-                {
-                    Text = u.Name,
-                    Value = u.Id.ToString()
-                });
+            //IEnumerable<SelectListItem> CoverTypeList = _unitOfWork.CoverType.GetAll().Select(
+            //    u => new SelectListItem
+            //    {
+            //        Text = u.Name,
+            //        Value = u.Id.ToString()
+            //    });
 
             if (id == null || id == 0)
             {
                 //create product
 
-                ViewBag.CategoryList = CategoryList;
-                ViewData["CoverTypeList"] = CoverTypeList;
+                //ViewBag.CategoryList = CategoryList;
+                //ViewData["CoverTypeList"] = CoverTypeList;
 
-                return View(product);
+                return View(productVM);
             }
             else
             {
                 //update product
             }
-            return View(product);
+            return View(productVM);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
