@@ -1,4 +1,5 @@
 ﻿using Library.DataAccess.Repository.IRepository;
+using Library.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,12 @@ namespace Library.DataAccess.Repository
     {
         private readonly LibraryDBContext _db;
         internal DbSet<T> dbSet;
+
         public Repository(LibraryDBContext db)
         {
             _db = db;
-            //instead of using "_db.Categories" directly use "dbSet"
-            dbSet = _db.Set<T>();
+            // _db.Products.Include(u=>u.Category).include(u=>u.CoverType);
+            this.dbSet = _db.Set<T>();
         }
 
         public void Add(T entity)
@@ -25,16 +27,35 @@ namespace Library.DataAccess.Repository
            dbSet.Add(entity);
         }
 
-        public IEnumerable<T> GetAll()
+        //Example =>   includeProperties = "Category,CoverType,,";     <= asingle string which contains commas twice
+        public IEnumerable<T> GetAll(string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
+            if (includeProperties != null)
+            {
+                foreach(var property in includeProperties.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(property);
+                }
+              
+            }
             return query.ToList();
         }
 
-        public T GetFirstOrDefault(Expression<Func<T, bool>> filter)
+        //Example =>   includeProperties = "Category,CoverType,,";     <= asingle string which contains commas twice
+        public T GetFirstOrDefault(Expression<Func<T, bool>> filter, string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
             query = query.Where(filter);
+
+            if (includeProperties != null)
+            {
+                foreach (var property in includeProperties.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(property);
+                }
+
+            }
 
             return query.FirstOrDefault();
         }
