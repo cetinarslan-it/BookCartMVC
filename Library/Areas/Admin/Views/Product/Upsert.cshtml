@@ -5,8 +5,8 @@
     <div asp-for="Product.ImageUrl" hidden></div>
 
     <div class="row">
-        <div class="col-10 pt-4">
-            <div class="border p-3 rounded-2" style="margin-top:-20px; background-color:lightgray">
+        <div class="@(Model.Product.Id!=0 ? "col-10 pt-4" : "col-12 pt-4")">
+        <div class="border p-3 rounded-2" style="margin-top:-20px; background-color:lightgray">
                 <div class="col-12 p-2">
                     <h2 class="text-primary">@(Model.Product.Id != 0 ? "Update" : "Create") Product</h2>
                     <hr />
@@ -92,9 +92,12 @@
                 </div>
             </div>
         </div>
-        <div class="col-2 pt-1">
-            <img src="@Model.Product.ImageUrl" class="rounded-2" width="200" style="border:solid 1px black"/>
-        </div>
+   
+        
+        <div class="@(Model.Product.Id!=0 ? "col-2" : "col-0")">
+            <img src="@Model.Product.ImageUrl" class="rounded-2" width="300" />
+        </div> 
+      
     </div>
 </form>
 
