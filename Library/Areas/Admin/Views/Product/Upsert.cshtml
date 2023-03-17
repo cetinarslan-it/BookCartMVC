@@ -1,10 +1,14 @@
 ﻿@model Library.Models.ViewModels.ProductVM
 
 <form method="post" asp-action="Upsert" enctype="multipart/form-data">
-    <div asp-for="Product.Id" hidden></div>
-    <div asp-for="Product.ImageUrl" hidden></div>
+    
 
     <div class="row">
+
+        <div asp-for="Product.Id" hidden></div>
+        <div asp-for="Product.ImageUrl" hidden></div>
+
+
         <div class="@(Model.Product.Id!=0 ? "col-10 pt-4" : "col-12 pt-4")">
         <div class="border p-3 rounded-2" style="margin-top:-20px; background-color:lightgray">
                 <div class="col-12 p-2">
@@ -61,22 +65,22 @@
 
                 <div class="mb-3">
                     <label asp-for="Product.ImageUrl"></label>
-                    <input type="file" id="uploadImage" name="file" class="form-control " />
+                    <input asp-for="Product.ImageUrl" type="file" id="uploadImage" name="file" class="form-control" >
                 </div>
                 <div class="row">
                     <div class="mb-3 col-6">
-                        <label asp-for="Product.CategoryId"></label>
+                        <label asp-for="Product.Category"></label>
                         <select asp-for="Product.CategoryId" asp-items="@Model.CategoryList" class="form-select">
                             <option disabled selected>--Select a Category--</option>
                         </select>
-                        <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+                        <span asp-validation-for="Product.Category" class="text-danger"></span>
                     </div>
                     <div class="mb-3 col-6">
-                        <label asp-for="Product.CoverTypeId"></label>
+                        <label asp-for="Product.CoverType"></label>
                         <select asp-for="Product.CoverTypeId" asp-items="@Model.CoverTypeList" class="form-select">
                             <option disabled selected>--Select a Category--</option>
                         </select>
-                        <span asp-validation-for="Product.CoverTypeId" class="text-danger"></span>
+                        <span asp-validation-for="Product.CoverType" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-12">

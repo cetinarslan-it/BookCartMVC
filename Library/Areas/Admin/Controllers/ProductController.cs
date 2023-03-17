@@ -70,20 +70,6 @@ namespace Library.Areas.Admin.Controllers
                 )
             };
 
-            //Product product = new Product();
-            //IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category.GetAll().Select(
-            //    u => new SelectListItem
-            //    {
-            //        Text = u.Name,
-            //        Value = u.Id.ToString()
-            //    });
-
-            //IEnumerable<SelectListItem> CoverTypeList = _unitOfWork.CoverType.GetAll().Select(
-            //    u => new SelectListItem
-            //    {
-            //        Text = u.Name,
-            //        Value = u.Id.ToString()
-            //    });
 
             if (id == null || id == 0)
             {
@@ -137,7 +123,7 @@ namespace Library.Areas.Admin.Controllers
 
                  }
 
-                if (obj.Product.Id==0)
+                if (obj.Product.Id == 0)
                 {
                     _unitOfWork.Product.Add(obj.Product);
                 }
@@ -158,42 +144,7 @@ namespace Library.Areas.Admin.Controllers
             return View(obj);
 
         }
-        [HttpGet]
-        public IActionResult Delete(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            var product = _unitOfWork.Product.GetFirstOrDefault(c => c.Id == id);
-          
-            if (product == null)
-            {
-                return NotFound();
-            }
-            return View(product);
-        }
-        [HttpPost, ActionName("DeletePost")]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeletePost(int? id)
-        {
-            var obj = _unitOfWork.Product.GetFirstOrDefault(c => c.Id == id);
-
-            if (obj == null)
-            {
-                return NotFound();
-
-            }
-
-            _unitOfWork.Product.Remove(obj);
-            _unitOfWork.Save();
-
-            TempData["success"] = "Cover type deleted succesfully";
-
-            return RedirectToAction("Index");
-        }
-
-
+   
         #region API CALLS
 
         [HttpGet]
@@ -202,6 +153,32 @@ namespace Library.Areas.Admin.Controllers
           var productList = _unitOfWork.Product.GetAll(includeProperties:"Category,CoverType");
 
             return Json(new { data = productList });    
+        }
+
+
+        [HttpDelete]
+        public IActionResult Delete(int? id)
+        {
+            var obj = _unitOfWork.Product.GetFirstOrDefault(c => c.Id == id);
+
+            if (obj == null)
+            {
+                return Json(new {success = false, message = "A error happened while deleting!.."});
+
+            }
+
+            var oldImagePath = Path.Combine(_hostEnvironment.WebRootPath, obj.ImageUrl.TrimStart('\\'));
+
+            if (System.IO.File.Exists(oldImagePath))
+            {
+                System.IO.File.Delete(oldImagePath);
+            }
+
+            _unitOfWork.Product.Remove(obj);
+            _unitOfWork.Save();
+
+
+            return Json(new { success = true, message = "Product deleted succesfully!..." });
         }
 
         #endregion

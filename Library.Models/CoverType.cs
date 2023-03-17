@@ -11,10 +11,9 @@ namespace Library.Models
     public class CoverType
     {
         [Key]
-        [DisplayName("Id")]
         public int Id { get; set; }
         [Required(ErrorMessage = "Please type the cover name!")]
-        [DisplayName("Cover type")]
+        [DisplayName("Cover Type")]
         [MaxLength(50)]
         public string Name { get; set; }
     }
