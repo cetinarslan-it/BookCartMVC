@@ -50,14 +50,14 @@ namespace Library.Models
         public int CategoryId { get; set; }
 
         [ValidateNever]
-        [DisplayName("Category")]
+        [Display(Name = "Category")]
         public Category Category { get; set; }
 
         [Required]
         public int CoverTypeId { get; set; }
 
         [ValidateNever]
-        [DisplayName("Cover Type")]
+        [Display(Name = "Cover Type")]
         public CoverType CoverType { get; set; }
     }
 }

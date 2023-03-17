@@ -19,33 +19,8 @@ namespace Library.Areas.Admin.Controllers
             _hostEnvironment = hostEnvironment;
         }
         public IActionResult Index()
-        {
-           
+        {      
             return View();
-        }
-
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(Product obj)
-        {
-            if (ModelState.IsValid)
-            {
-                _unitOfWork.Product.Add(obj);
-                _unitOfWork.Save();
-
-                TempData["success"] = "A new cover type added succesfully";
-
-                return RedirectToAction("Index");
-            }
-
-            return View(obj);
-
         }
 
         [HttpGet]
@@ -132,8 +107,6 @@ namespace Library.Areas.Admin.Controllers
                     _unitOfWork.Product.Update(obj.Product);    
                 }
 
-           
-                 _unitOfWork.Product.Add(obj.Product);
                  _unitOfWork.Save();
  
                  TempData["success"] = "New product created succesfully";
