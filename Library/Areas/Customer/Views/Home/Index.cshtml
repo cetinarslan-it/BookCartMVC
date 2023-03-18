@@ -19,6 +19,11 @@
                              <div class="p-1 ">
                                  <p>As low as: <b>$@product.Price100.ToString("0.00")</b></p>
                              </div>
+                             <div>
+                                 <a asp-action="Details" asp-route-id="@product.Id" class="btn btn-info form-control">
+                                    Details
+                                 </a>
+                             </div>
                         </div>
                     </div>
                 </div>
