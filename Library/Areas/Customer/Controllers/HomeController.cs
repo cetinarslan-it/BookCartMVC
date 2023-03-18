@@ -24,10 +24,22 @@ namespace Library.Areas.Customer.Controllers
             return View(productList);
         }
 
+        public IActionResult Details(int id)
+        {
+            ShoppingCartVM shoppingCartObj = new ShoppingCartVM()
+            {
+                Count = 1,
+                Product = _unitOfWork.Product.GetFirstOrDefault(x => x.Id == id, includeProperties: "Category,CoverType")
+            };
+           
+            return View(shoppingCartObj);
+        }
+
         public IActionResult Privacy()
         {
             return View();
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
