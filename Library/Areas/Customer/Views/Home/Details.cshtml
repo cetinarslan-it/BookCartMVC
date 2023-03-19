@@ -1,8 +1,8 @@
 ﻿@model ShoppingCartVM
 
-<form method="post">
+<form method="post" class="mt-4">
     <input hidden asp-for="ProductId" />
-    <div class="card  container pt-4">
+    <div class="card container">
         <div class="card-header bg-primary text-light ml-0 row m-2 round-2">
             <div class="col-12 col-md-6">
                 <h1 class="text-white-70">@Model.Product.Title</h1>
@@ -48,9 +48,13 @@
                                 <div>@Model.Product.Price100.ToString("c")</div>
                             </div>
                         </div>
-                        <div class="row pl-2 mb-5">
-                             <p class="text-secondary">@Html.Raw(Model.Product.Description)</p>
+                        <div style="font-size:1.5rem" >
+                            <b class="text-muted">Description:</b>
+                            <div class="row-5 pl-2 mb-5" style="overflow:scroll; height:150px; font-size:1rem">
+                                <p class="text-secondary">@Html.Raw(Model.Product.Description)</p>
+                            </div>
                         </div>
+                       
                         <div class="row pl-2 text-end">
                              <div class="col-8"></div>
                              <div class="col-2 text-primary"><h4>Count :</h4></div>

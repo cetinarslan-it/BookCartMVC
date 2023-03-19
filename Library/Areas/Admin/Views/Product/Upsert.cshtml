@@ -1,13 +1,13 @@
 ﻿@model Library.Models.ViewModels.ProductVM
 
-<form method="post" asp-action="Upsert" enctype="multipart/form-data">
+<form method="post" asp-action="Upsert" enctype="multipart/form-data" class="mt-4 mb-4">
     
     <input asp-for="Product.Id" hidden/>
     <input asp-for="Product.ImageUrl" hidden/>
 
     <div class="row">
         <div class="@(Model.Product.Id!=0 ? "col-10 pt-4" : "col-12 pt-4")">
-             <div class="border p-3 rounded-2" style="margin-top:-20px; background-color:lightgray">
+             <div class="border p-3 rounded-2" style="margin-top:-20px">
                 <div class="col-12 p-2">
                     <h2 class="text-primary">@(Model.Product.Id != 0 ? "Update the " : "Create a new ") product : <strong style="color:black">@Model.Product.Title</strong> </h2>
                     <hr />
@@ -92,11 +92,13 @@
                 </div>
             </div>
         </div>       
-        <div class="@(Model.Product.Id!=0 ? "col-2" : "col-0")">
+        <div class="@(Model.Product.Id!=0 ? "col-2" : "col-0") mt-2">
             <img src="@Model.Product.ImageUrl" class="rounded-2" width="200" />
             <br /><br />
-            <p style="font-size:20px"><b><u>Description:</u></b></p>
-            <div style="overflow:scroll; width:200px; height:420px">@Html.Raw(Model.Product.Description)</div>
+            <div style="@(Model.Product.Id!=0 ? " " : "display:none")">
+                <p style="font-size:20px"><b><u>Description:</u></b></p>
+                <div style="overflow:scroll; width:200px; height:420px">@Html.Raw(Model.Product.Description)</div>
+            </div>          
         </div>      
     </div>
 </form>
