@@ -13,7 +13,7 @@ namespace Library.Models
     {
         [Key]
         public int Id { get; set; }
-        public string Title { get; set; } = LoremNET.Lorem.Words(1) + " " + LoremNET.Lorem.Words(1) + " " + LoremNET.Lorem.Words(1);
+        public string Title { get; set; } = LoremNET.Lorem.Words(1) + " " +LoremNET.Lorem.Words(1) + " " + LoremNET.Lorem.Words(1);
         public string Description { get; set; } = LoremNET.Lorem.Paragraph(5, 16, 4, 12);
 
         [Required]

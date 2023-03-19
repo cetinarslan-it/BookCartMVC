@@ -20,7 +20,7 @@
                 </div>
                 <div class="mb-3">
                     <label asp-for="Product.Description"></label>
-                    <textarea asp-for="Product.Description" rows="2" class="form-control"></textarea>
+                    <textarea asp-for="Product.Description" rows="2" class="form-control">@(Model.Product.Id == 0 ? @LoremNET.Lorem.Words(2) : @LoremNET.Lorem.Words(5))</textarea>
                     <span asp-validation-for="Product.Description" class="text-danger"></span>
                 </div>
                 <div class="row">
